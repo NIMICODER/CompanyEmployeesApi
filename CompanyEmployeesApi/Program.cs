@@ -1,6 +1,7 @@
 using CompanyEmployeesApi.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 
 namespace CompanyEmployeesApi
@@ -25,6 +26,11 @@ namespace CompanyEmployeesApi
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAutoMapper(typeof(Program));
 
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             builder.Services.AddControllers(config => {
                 config.RespectBrowserAcceptHeader = true;

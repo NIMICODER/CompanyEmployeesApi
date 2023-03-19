@@ -23,7 +23,7 @@ namespace CompanyEmployees.Presentation.Controllers
         [HttpGet]
         public IActionResult GetCompanies()
         {
-            //throw new Exception("Exception");
+            throw new Exception("Exception");
             var companies = _service.CompanyService.GetAllCompanies(trackChanges: false);
             return Ok(companies);   
         }
@@ -38,7 +38,7 @@ namespace CompanyEmployees.Presentation.Controllers
         [HttpPost]
         public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
         {
-            if (company == null)
+            if (company is null)
                 return BadRequest("CompanyForCreationDto object is null");
             
             var createdCompany = _service.CompanyService.CreateCompany(company);
