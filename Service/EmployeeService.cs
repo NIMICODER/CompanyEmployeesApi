@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.ComponentModel;
 
 namespace Service
 {
@@ -23,16 +24,32 @@ namespace Service
         public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges)
         {
             var company = _repository.Company.GetCompany(companyId, trackChanges);
-            if (company == null)
-            {
+            if (company is null)
                 throw new CompanyNotFoundException(companyId);
-            }
+
             var employeeEntity = _mapper.Map<Employee>(employeeForCreation);
             _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity);
             _repository.Save();
 
             var employeeReturn = _mapper.Map<EmployeeDto>(employeeEntity);
             return employeeReturn;
+        }
+
+        public void DeleteEmployeeForCompany(Guid companyId, Guid id, bool trackChanges)
+        {
+           var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if(company is null)
+            {
+                throw new CompanyNotFoundException(companyId);
+            }
+            var employeeForCompany = _repository.Employee.GetEmployee(companyId,id, trackChanges);
+            if (employeeForCompany is null)
+            {
+                throw new EmployeeNotFoundException(id);
+            }
+            _repository.Employee.DeleteEmployee(employeeForCompany);
+            _repository.Save();
+
         }
 
         public EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges)
@@ -49,6 +66,21 @@ namespace Service
             return employeeDto;
         }
 
+        // map the employee entity to the EmployeeForUpdateDto type and return both
+        //objects(employeeToPatch and employeeEntity) inside the Tuple to the controller
+        public (EmployeeForUpdateDto employeeToPatch, Employee employeeEntity) GetEmployeeForPatch(Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, compTrackChanges);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeEntity = _repository.Employee.GetEmployee(companyId, id,
+            empTrackChanges);
+            if (employeeEntity is null)
+                throw new EmployeeNotFoundException(companyId);
+            var employeeToPatch = _mapper.Map<EmployeeForUpdateDto>(employeeEntity);
+            return (employeeToPatch, employeeEntity);
+        }
+
         public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
         {
             var company = _repository.Company.GetCompany(companyId, trackChanges);
@@ -57,6 +89,26 @@ namespace Service
             var employeesFromDb = _repository.Employee.GetEmployees(companyId, trackChanges);
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return employeesDto;
+        }
+
+        // maps from emplyeeToPatch to employeeEntity and calls the repository's Save method
+        public void SaveChangesForPatch(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)
+        {
+            _mapper.Map(employeeToPatch, employeeEntity);
+            _repository.Save();
+        }
+
+        public void UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, compTrackChanges);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeEntity = _repository.Employee.GetEmployee(companyId, id,
+            empTrackChanges);
+            if (employeeEntity is null)
+                throw new EmployeeNotFoundException(id);
+            _mapper.Map(employeeForUpdate, employeeEntity);
+            _repository.Save();
         }
     }
 
