@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using NLog;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
-
+using CompanyEmployeesApi.ActionFilters;
 
 namespace CompanyEmployeesApi
 {
@@ -43,7 +43,7 @@ namespace CompanyEmployeesApi
 
                     .OfType<NewtonsoftJsonPatchInputFormatter>().First();
 
-
+            builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddControllers(config => {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
@@ -51,6 +51,9 @@ namespace CompanyEmployeesApi
             }).AddXmlDataContractSerializerFormatters()
              .AddCustomCSVFormatter()
              .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
+
+            builder.Services.AddAuthentication();
+            builder.Services.ConfigureIdentity();
 
            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -84,6 +87,7 @@ namespace CompanyEmployeesApi
             });
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

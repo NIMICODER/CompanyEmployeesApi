@@ -17,7 +17,7 @@ namespace CompanyEmployeesApi
 
             CreateMap<CompanyForCreationDto, Company>();
             CreateMap<EmployeeForCreationDto, Employee>();
-            CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();             CreateMap<CompanyForUpdateDto, Company>();
+            CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();             CreateMap<CompanyForUpdateDto, Company>();            CreateMap<UserForRegistrationDto, User>();
         }
     }
 }

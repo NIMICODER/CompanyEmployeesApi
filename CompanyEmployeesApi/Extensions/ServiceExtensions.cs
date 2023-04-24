@@ -1,5 +1,7 @@
 ﻿using Contracts;
+using Entities.Models;
 using LoggerService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -47,8 +49,24 @@ namespace CompanyEmployeesApi.Extensions
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
              builder.AddMvcOptions(config => config.OutputFormatters.Add(new
             CsvOutputFormatter()));
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
 
-
+            var builder = services.AddIdentityCore<User>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
+                o.User.RequireUniqueEmail = true;
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole),
+           builder.Services);
+            builder
+            .AddEntityFrameworkStores<RepositoryDbContext>()
+            .AddDefaultTokenProviders();
+        }
 
     }
 }
