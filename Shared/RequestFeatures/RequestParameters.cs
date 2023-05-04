@@ -17,8 +17,4 @@
             }
         }
     }
-
-    public class EmployeeParameters : RequestParameters
-    {
-    }
 }
