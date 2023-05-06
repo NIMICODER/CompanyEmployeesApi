@@ -7,6 +7,8 @@ using NLog;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using CompanyEmployeesApi.ActionFilters;
+using Service.DataShaping;
+using Shared.DataTransferObjects;
 
 namespace CompanyEmployeesApi
 {
@@ -29,6 +31,8 @@ namespace CompanyEmployeesApi
             builder.Services.ConfigureServiceManager();
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
 
 
             builder.Services.Configure<ApiBehaviorOptions>(options =>
