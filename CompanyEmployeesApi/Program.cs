@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using CompanyEmployeesApi.ActionFilters;
 using Service.DataShaping;
 using Shared.DataTransferObjects;
+using CompanyEmployees.Presentation.ActionFilters;
 
 namespace CompanyEmployeesApi
 {
@@ -32,6 +33,7 @@ namespace CompanyEmployeesApi
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+            builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
 
 
@@ -55,6 +57,8 @@ namespace CompanyEmployeesApi
             }).AddXmlDataContractSerializerFormatters()
              .AddCustomCSVFormatter()
              .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
+
+            builder.Services.AddCustomMediaTypes();
 
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();

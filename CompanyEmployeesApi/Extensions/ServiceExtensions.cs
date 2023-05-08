@@ -2,6 +2,8 @@
 using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -67,6 +69,29 @@ namespace CompanyEmployeesApi.Extensions
             builder
             .AddEntityFrameworkStores<RepositoryDbContext>()
             .AddDefaultTokenProviders();
+        }
+
+
+        public static void AddCustomMediaTypes(this IServiceCollection services)
+        {
+            services.Configure<MvcOptions>(config =>
+            {
+                var systemTextJsonOutputFormatter = config.OutputFormatters
+                .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+                if (systemTextJsonOutputFormatter != null)
+                {
+                    systemTextJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.codemaze.hateoas+json");
+                }
+                var xmlOutputFormatter = config.OutputFormatters
+                .OfType<XmlDataContractSerializerOutputFormatter>()?
+                .FirstOrDefault();
+                if (xmlOutputFormatter != null)
+                {
+                    xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.codemaze.hateoas+xml");
+                }
+            });
         }
 
     }
