@@ -10,6 +10,7 @@ using CompanyEmployeesApi.ActionFilters;
 using Service.DataShaping;
 using Shared.DataTransferObjects;
 using CompanyEmployees.Presentation.ActionFilters;
+using CompanyEmployeesApi.Utility;
 
 namespace CompanyEmployeesApi
 {
@@ -34,6 +35,8 @@ namespace CompanyEmployeesApi
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
             builder.Services.AddScoped<ValidateMediaTypeAttribute>();
+            builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
+
 
 
 
