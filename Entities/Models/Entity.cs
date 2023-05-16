@@ -31,5 +31,16 @@ namespace Entities.Models
             writer.WriteEndElement();
         }
 
+        private readonly Dictionary<string, object> _properties = new();
+
+        public void Add(string propertyName, object propertyValue)
+        {
+            _properties.Add(propertyName, propertyValue);
+        }
+
+        public void TryAdd(string propertyName, object? objectPropertyValue)
+        {
+            if (objectPropertyValue != null) _properties.TryAdd(propertyName, objectPropertyValue);
+        }
     }
 }

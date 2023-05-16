@@ -30,9 +30,7 @@ namespace CompanyEmployeesApi.Utility
 
         private List<Entity> ShapeData(IEnumerable<EmployeeDto> employeesDto, string fields)
             =>
-             _dataShaper.ShapeData(employeesDto, fields)
-             .Select(e => e.Entity)
-             .ToList();
+             _dataShaper.ShapeData(employeesDto, fields).Select(e => e.Entity).ToList();
 
 
         private bool ShouldGenerateLinks(HttpContext httpContext)
@@ -40,10 +38,11 @@ namespace CompanyEmployeesApi.Utility
             var mediaType = (MediaTypeHeaderValue)httpContext.Items["AcceptHeaderMediaType"];
             return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas",
            StringComparison.InvariantCultureIgnoreCase);
+
         }
         private LinkResponse ReturnShapedEmployees(List<Entity> shapedEmployees) =>
          new LinkResponse { ShapedEntities = shapedEmployees };
-
+        
 
         private LinkResponse ReturnLinkdedEmployees(IEnumerable<EmployeeDto> employeesDto, string fields, Guid companyId, HttpContext httpContext, List<Entity> shapedEmployees)
         {
@@ -52,7 +51,7 @@ namespace CompanyEmployeesApi.Utility
             {
                 var employeeLinks = CreateLinksForEmployee(httpContext, companyId,
                employeeDtoList[index].Id, fields);
-                shapedEmployees[index].Add("Links", employeeLinks);
+                shapedEmployees[index].Add("links", employeeLinks);
             }
             var employeeCollection = new LinkCollectionWrapper<Entity>(shapedEmployees);
             var linkedEmployees = CreateLinksForEmployees(httpContext, employeeCollection);

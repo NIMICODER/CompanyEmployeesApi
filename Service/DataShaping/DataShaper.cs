@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using System.Dynamic;
 using System.Reflection;
+using Entities.Models;
 
 namespace Service.DataShaping
 {
@@ -12,13 +13,13 @@ namespace Service.DataShaping
             Properties = typeof(T).GetProperties(BindingFlags.Public |
            BindingFlags.Instance);
         }
-        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string
+        public IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string
        fieldsString)
         {
             var requiredProperties = GetRequiredProperties(fieldsString);
             return FetchData(entities, requiredProperties);
         }
-        public ExpandoObject ShapeData(T entity, string fieldsString)
+        public ShapedEntity ShapeData(T entity, string fieldsString)
         {
             var requiredProperties = GetRequiredProperties(fieldsString);
             return FetchDataForEntity(entity, requiredProperties);
@@ -46,32 +47,30 @@ namespace Service.DataShaping
             }
             return requiredProperties;
         }
-        private IEnumerable<ExpandoObject> FetchData(IEnumerable<T> entities,
-       IEnumerable<PropertyInfo> requiredProperties)
+        private IEnumerable<ShapedEntity> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
         {
-            var shapedData = new List<ExpandoObject>();
-            foreach (var entity in entities)
-            {
-                var shapedObject = FetchDataForEntity(entity, requiredProperties);
-                shapedData.Add(shapedObject);
-            }
-            return shapedData;
+            return entities.Select(entity => FetchDataForEntity(entity, requiredProperties)).ToList();
         }
-        private ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo>
-       requiredProperties)
+        //private IEnumerable<ShapedEntity> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
+        //{
+        //    var shapedData = new List<ExpandoObject>();
+        //    foreach (var entity in entities)
+        //    {
+        //        var shapedObject = FetchDataForEntity(entity, requiredProperties);
+        //        shapedData.Add(shapedObject);
+        //    }
+        //    return shapedData;
+        //}
+        private ShapedEntity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
         {
-            var shapedObject = new ExpandoObject();
-
+            var shapedObject = new ShapedEntity();
             foreach (var property in requiredProperties)
             {
                 var objectPropertyValue = property.GetValue(entity);
                 shapedObject.Entity.TryAdd(property.Name, objectPropertyValue);
-
             }
-
             var objectProperty = entity.GetType().GetProperty("Id");
             shapedObject.Id = (Guid)objectProperty.GetValue(entity);
-
             return shapedObject;
         }
     }

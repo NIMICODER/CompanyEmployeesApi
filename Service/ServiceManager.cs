@@ -15,14 +15,14 @@ namespace Service
         private readonly Lazy<IAuthenticationService> _authenticationService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, 
-            IMapper mapper, IDataShaper<EmployeeDto> dataShaper, UserManager<User> userManager, IConfiguration configuration)
+            IMapper mapper, IDataShaper<EmployeeDto> dataShaper, UserManager<User> userManager, IConfiguration configuration, IEmployeeLinks employeeLinks)
         {
 
             _companyService = new Lazy<ICompanyService>(() => new
             CompanyService(repositoryManager, logger, mapper));
 
             _employeeService = new Lazy<IEmployeeService>(() => new
-            EmployeeService(repositoryManager, logger, mapper, dataShaper));
+            EmployeeService(repositoryManager, logger, mapper, dataShaper, employeeLinks));
 
             _authenticationService = new Lazy<IAuthenticationService>(() =>
             new AuthenticationService(logger, mapper, userManager, configuration));
