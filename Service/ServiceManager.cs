@@ -27,11 +27,13 @@ namespace Service
             _authenticationService = new Lazy<IAuthenticationService>(() =>
             new AuthenticationService(logger, mapper, userManager, configuration));
         }
-        public ICompanyService CompanyService => _companyService.Value;
-        public IEmployeeService EmployeeService => _employeeService.Value;
+        public ICompanyService CompanyService =>
+            _companyService.Value;
+        public IEmployeeService EmployeeService => 
+            _employeeService.Value;
 
-        public IAuthenticationService AuthenticationService =>
-  _authenticationService.Value;
+        public IAuthenticationService AuthenticationService => 
+            _authenticationService.Value;
     }
 
 }

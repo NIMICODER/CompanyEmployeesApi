@@ -24,20 +24,20 @@ namespace Service
             _configuration = configuration;
         }
 
-        public Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        //public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
+        //public Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         //{
-        //   var user = _mapper.Map<User>(userForRegistration);
-        //    var result = await _userManager.CreateAsync(user, userForRegistration.Password);
-        //    if (result.Succeeded)
-        //        await _userManager.AddToRoleAsync(user, userForRegistration.Roles);
-        //        return result;
-
+        //    throw new NotImplementedException();
         //}
+
+
+        public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
+        {
+            var user = _mapper.Map<User>(userForRegistration);
+            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+            if (result.Succeeded)
+                await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+            return result;
+
+        }
     }
 }

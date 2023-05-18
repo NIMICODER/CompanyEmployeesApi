@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace CompanyEmployeesApi.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    partial class RepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230517144048_CreatingIdentityTables")]
+    partial class CreatingIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,15 +224,15 @@ namespace CompanyEmployeesApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ae67f7d6-b80d-4eeb-81b3-b095a30e01fc",
-                            ConcurrencyStamp = "4bf162a7-c754-40a8-8468-8c885dbbd464",
+                            Id = "e664a870-000f-4a61-8835-35eed72bffb4",
+                            ConcurrencyStamp = "f09dc9c0-af90-4620-afcd-18fb18071ba5",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "36302ae1-c4ec-49d6-91e9-5d4453a428da",
-                            ConcurrencyStamp = "570fcd93-40e7-4c40-ae8b-ebe2a135fe66",
+                            Id = "837602cb-ff5b-4ce0-9874-b66094c16193",
+                            ConcurrencyStamp = "06e77c2e-117d-44de-ae14-35234b0d6df3",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
