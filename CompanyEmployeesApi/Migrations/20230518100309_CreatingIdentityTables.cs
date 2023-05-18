@@ -200,8 +200,8 @@ namespace CompanyEmployeesApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "837602cb-ff5b-4ce0-9874-b66094c16193", "06e77c2e-117d-44de-ae14-35234b0d6df3", "Administrator", "ADMINISTRATOR" },
-                    { "e664a870-000f-4a61-8835-35eed72bffb4", "f09dc9c0-af90-4620-afcd-18fb18071ba5", "Manager", "MANAGER" }
+                    { "4e92a543-2945-4a72-bcc7-ae507e197b87", "e0b5153a-cf21-40ab-af5f-7915e908483e", "Administrator", "ADMINISTRATOR" },
+                    { "772a4d3f-c22c-45c6-b785-20e3eca0c9d7", "fb24bc68-7542-45e2-97aa-d2f4ef1cf96d", "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(

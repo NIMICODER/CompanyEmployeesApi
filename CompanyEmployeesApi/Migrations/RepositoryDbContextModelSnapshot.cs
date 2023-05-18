@@ -221,15 +221,15 @@ namespace CompanyEmployeesApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ae67f7d6-b80d-4eeb-81b3-b095a30e01fc",
-                            ConcurrencyStamp = "4bf162a7-c754-40a8-8468-8c885dbbd464",
+                            Id = "772a4d3f-c22c-45c6-b785-20e3eca0c9d7",
+                            ConcurrencyStamp = "fb24bc68-7542-45e2-97aa-d2f4ef1cf96d",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "36302ae1-c4ec-49d6-91e9-5d4453a428da",
-                            ConcurrencyStamp = "570fcd93-40e7-4c40-ae8b-ebe2a135fe66",
+                            Id = "4e92a543-2945-4a72-bcc7-ae507e197b87",
+                            ConcurrencyStamp = "e0b5153a-cf21-40ab-af5f-7915e908483e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

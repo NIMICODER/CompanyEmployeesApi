@@ -24,12 +24,6 @@ namespace Service
             _configuration = configuration;
         }
 
-        //public Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
             var user = _mapper.Map<User>(userForRegistration);

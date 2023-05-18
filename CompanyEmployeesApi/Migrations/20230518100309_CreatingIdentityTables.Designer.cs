@@ -12,7 +12,7 @@ using Repository;
 namespace CompanyEmployeesApi.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20230323080148_CreatingIdentityTables")]
+    [Migration("20230518100309_CreatingIdentityTables")]
     partial class CreatingIdentityTables
     {
         /// <inheritdoc />
@@ -220,6 +220,22 @@ namespace CompanyEmployeesApi.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "772a4d3f-c22c-45c6-b785-20e3eca0c9d7",
+                            ConcurrencyStamp = "fb24bc68-7542-45e2-97aa-d2f4ef1cf96d",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = "4e92a543-2945-4a72-bcc7-ae507e197b87",
+                            ConcurrencyStamp = "e0b5153a-cf21-40ab-af5f-7915e908483e",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
