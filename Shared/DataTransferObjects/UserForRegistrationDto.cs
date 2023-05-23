@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
+
+
+
     public record UserForRegistrationDto
     {
 

@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using NLog;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
-using CompanyEmployeesApi.ActionFilters;
 using Service.DataShaping;
 using Shared.DataTransferObjects;
 using CompanyEmployees.Presentation.ActionFilters;
@@ -33,8 +32,9 @@ namespace CompanyEmployeesApi
             builder.Services.ConfigureServiceManager();
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAutoMapper(typeof(Program));
+
+            builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
-            builder.Services.AddScoped<ValidateMediaTypeAttribute>();
             builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
             builder.Services.ConfigureVersioning();
 
@@ -54,7 +54,7 @@ namespace CompanyEmployeesApi
 
                     .OfType<NewtonsoftJsonPatchInputFormatter>().First();
 
-            builder.Services.AddScoped<ValidationFilterAttribute>();
+          
             builder.Services.AddControllers(config => {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
@@ -64,11 +64,14 @@ namespace CompanyEmployeesApi
              .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
 
             builder.Services.AddCustomMediaTypes();
+            builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();
+            builder.Services.ConfigureJWT(builder.Configuration);
 
-           
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
