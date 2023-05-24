@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
@@ -42,6 +43,8 @@ namespace CompanyEmployeesApi.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                     };
                 });
+
+
 
         }
         public static void ConfigureVersioning(this IServiceCollection services)
@@ -103,7 +106,7 @@ namespace CompanyEmployeesApi.Extensions
         public static void ConfigureIdentity(this IServiceCollection services)
         {
 
-            var builder = services.AddIdentityCore<User>(o =>
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;

@@ -18,19 +18,6 @@ namespace CompanyEmployees.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
-            //var result = await _service.AuthenticationService.RegisterUser(userForRegistration);    
-            //if (result.Succeeded)
-            //{
-            //    foreach(var error in result.Errors)
-            //    {
-            //        ModelState.TryAddModelError(error.Code, error.Description);
-            //    }
-            //    return BadRequest(ModelState);
-            //}
-            //return StatusCode(201);
-
-
-
 
             var result = await _service.AuthenticationService.RegisterUser(userForRegistration);
             if (!result.Succeeded) return StatusCode(201);
@@ -41,6 +28,19 @@ namespace CompanyEmployees.Presentation.Controllers
             return BadRequest(ModelState);
 
         }
+
+
+
+        [HttpPost("login")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+        {
+            if (!await _service.AuthenticationService.ValidateUser(user))
+                return Unauthorized();
+            //return Ok();
+            return Ok(new {Token = await _service.AuthenticationService.CreateToken() });
+        }
+
 
     }
 

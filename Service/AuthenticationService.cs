@@ -60,8 +60,11 @@ namespace Service
 
         private SigningCredentials GetSigningCredentials()
         {
+
             var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+
             var secret = new SymmetricSecurityKey(key);
+
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
