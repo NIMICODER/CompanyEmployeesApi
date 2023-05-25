@@ -19,14 +19,15 @@ namespace CompanyEmployees.Presentation.Controllers
         public EmployeesController(IServiceManager service) => _service = service;
 
 
-        [HttpGet("  Get all employees")]
+        [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
 
-        public async Task<IActionResult> GetAllEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
+        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
             var linkParams = new LinkParameters(employeeParameters, HttpContext);
 
-            var result = await _service.EmployeeService.GetEmployeesAsync(companyId,linkParams, trackChanges: false);
+            var result = await _service.EmployeeService.GetEmployeesAsync(companyId,
+linkParams, trackChanges: false);
 
 
             Response.Headers.Add("X-Pagination",

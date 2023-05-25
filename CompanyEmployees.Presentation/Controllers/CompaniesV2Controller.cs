@@ -7,9 +7,11 @@ namespace CompanyEmployeesApi.Controllers
     //[ApiVersion("2.0")]
     //[ApiVersion("2.0", Deprecated = true)]
     [Route("api/companies")]
-    //[Route("api/{v:apiversion}/companies")]
-
     [ApiController]
+    //[Route("api/{v:apiversion}/companies")]
+    [ApiExplorerSettings(GroupName = "v2")]
+
+   
     public class CompaniesV2Controller : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -17,8 +19,8 @@ namespace CompanyEmployeesApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCompanies()
         {
-            var companies = await _service.CompanyService
-            .GetAllCompaniesAsync(trackChanges: false);
+            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
+
             var companiesV2 = companies.Select(x => $"{x.Name} V2");
             return Ok(companiesV2);
         }

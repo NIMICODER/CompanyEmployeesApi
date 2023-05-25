@@ -36,7 +36,10 @@ namespace CompanyEmployeesApi
             builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
             builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
+
+
             builder.Services.ConfigureVersioning();
+            builder.Services.ConfigureSwagger();
 
 
 
@@ -69,12 +72,19 @@ namespace CompanyEmployeesApi
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();
             builder.Services.ConfigureJWT(builder.Configuration);
+            builder.Services.AddJwtConfiguration(builder.Configuration);
 
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c => {
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                c.IgnoreObsoleteActions();
+                c.IgnoreObsoleteProperties();
+                c.CustomSchemaIds(type => type.FullName);
+            });
 
             var app = builder.Build();
 
@@ -92,6 +102,8 @@ namespace CompanyEmployeesApi
 
 
 
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //This next code is configuring the ASP.NET Core middleware to use forwarded headers when processing incoming requests.
@@ -103,11 +115,16 @@ namespace CompanyEmployeesApi
             });
             app.UseCors("CorsPolicy");
 
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
-
             app.MapControllers();
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Company Employees API v1");
+                s.SwaggerEndpoint("/swagger/v2/swagger.json", "Company Employees API v2");
+            });
 
             app.Run();
         }

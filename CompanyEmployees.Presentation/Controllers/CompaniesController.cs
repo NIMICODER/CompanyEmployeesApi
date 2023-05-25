@@ -15,6 +15,7 @@ namespace CompanyEmployees.Presentation.Controllers
     [ApiVersion("1.0")]
     [Route("api/companies")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class CompaniesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -32,7 +33,7 @@ namespace CompanyEmployees.Presentation.Controllers
         }
 
         [HttpGet(Name = "GetCompanies")]
-        [Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> GetCompanies()
         {
             var companies = await

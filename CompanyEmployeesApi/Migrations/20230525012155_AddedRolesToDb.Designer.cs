@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace CompanyEmployeesApi.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    partial class RepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230525012155_AddedRolesToDb")]
+    partial class AddedRolesToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace CompanyEmployeesApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
 
                     b.HasData(
                         new
@@ -90,7 +93,7 @@ namespace CompanyEmployeesApi.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
 
                     b.HasData(
                         new
@@ -169,12 +172,6 @@ namespace CompanyEmployeesApi.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -227,15 +224,15 @@ namespace CompanyEmployeesApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "69be10f1-21c3-4cdd-8477-86d9dd2dc337",
-                            ConcurrencyStamp = "94132302-ec80-4817-9c8c-e9ecebfde88a",
+                            Id = "3387213c-b51a-495b-afef-48c9b00bdb60",
+                            ConcurrencyStamp = "eacf3b08-63e8-41ff-be86-1c4ca032e178",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "4cc0ccba-ad89-4767-8ae2-e9b6e11ab340",
-                            ConcurrencyStamp = "b8d4ab7f-f664-4c9b-b35e-24ce195915be",
+                            Id = "c170c436-3a2d-46e6-86e5-22bc7586cbeb",
+                            ConcurrencyStamp = "10445d20-a50a-42d9-8069-50c0ff0242c8",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
