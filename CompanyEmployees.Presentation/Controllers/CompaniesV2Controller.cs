@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CompanyEmployeesApi.Controllers
+namespace CompanyEmployees.Presentation.Controllers
 {
     //[ApiVersion("2.0")]
     //[ApiVersion("2.0", Deprecated = true)]
@@ -11,7 +15,6 @@ namespace CompanyEmployeesApi.Controllers
     //[Route("api/{v:apiversion}/companies")]
     [ApiExplorerSettings(GroupName = "v2")]
 
-   
     public class CompaniesV2Controller : ControllerBase
     {
         private readonly IServiceManager _service;

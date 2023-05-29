@@ -1,5 +1,4 @@
 ﻿using CompanyEmployees.Presentation.Controllers;
-using CompanyEmployeesApi.Controllers;
 using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
@@ -28,13 +27,30 @@ namespace CompanyEmployeesApi.Extensions
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Company Employees API",
-                    Version = "v1"
+                    Version = "v1",
+                    Description = "CompanyEmployees API by NimiCoder",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "John Doe",
+                        Email = "John.Doe@gmail.com",
+                        Url = new Uri("https://twitter.com/johndoe"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "CompanyEmployees API LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
                 });
                 s.SwaggerDoc("v2", new OpenApiInfo
                 {
                     Title = "Company Employees API",
                     Version = "v2"
                 });
+                var xmlFile = $"{typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
+
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
